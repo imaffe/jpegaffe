@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 
+import com.affe.interfaces.Observable;
+import com.affe.interfaces.Observer;
 import com.affe.model.JpegModelObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import static com.affe.view.MainApp.logger;
+
 public class FXMLController implements Initializable {
+    // TODO do we need to implememt this Controller as Observer ?
+    // TODO or to say, can we add a CanvasController class ?
     @FXML
     private Button importButton;
 
@@ -29,14 +35,24 @@ public class FXMLController implements Initializable {
     private Canvas canvas;
 
     private GraphicsContext gc;
-    private JpegModelObservable jpeg;
+
     private Stage stage;
-    private Logger logger;
+    // TODO make sure it can use Observer and not concrete class
+    private Observer observer;
     @FXML
     private void handleImportButtonAction(ActionEvent event) {
         logger.info("Importing Jpeg File...");
+        // the file is valid then bind to a model how to add a listener ?
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
+        // add file filters
+        // TODO can here use an factory method ?
+        // TODO here we can use a bette design pattern
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG file", "*.png"),
+                new FileChooser.ExtensionFilter("JPEG file","*.jpg"));
+
+        // show the file chooser dialog
         File jpegFile = fileChooser.showOpenDialog(stage);
         if (jpegFile == null) {
             logger.info("File is null, choose another file");
@@ -45,17 +61,21 @@ public class FXMLController implements Initializable {
             // TODO : abort or something
         }
 
-        // the file is valid;
 
+        // register this model to the observer
+        Observable jpeg = new JpegModelObservable(jpegFile);
+        jpeg.registerObserver(observer);
     }
 
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
+
+        // set observer
+        observer = new JpegModelObserver();
     }
 
     //getters and setters
@@ -75,27 +95,19 @@ public class FXMLController implements Initializable {
         return this.gc;
     }
 
-    public JpegModelObservable getJpeg(){
-        return this.jpeg;
-    }
-
     public Stage getStage(){
         return this.stage;
     }
 
-    public Logger getLogger(){
-        return this.logger;
+    public Observer getObserver() {
+        return this.observer;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void setJpeg(JpegModelObservable jpeg) {
-        this.jpeg = jpeg;
-    }
-
-    public void setLogger(Logger logger){
-        this.logger = logger;
+    public void setObserver(Observer observer) {
+        this.observer = observer;
     }
 }
