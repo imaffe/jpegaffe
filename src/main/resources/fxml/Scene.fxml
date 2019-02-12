@@ -6,9 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml" fx:controller="com.affe.FXMLController">
+<?import javafx.scene.canvas.Canvas?>
+<AnchorPane id="AnchorPane" prefHeight="960" prefWidth="1280" xmlns:fx="http://javafx.com/fxml" fx:controller="com.affe.controller.FXMLController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        <Button layoutX="40" layoutY="90" onAction="#handleImportButtonAction" fx:id="importButton" prefHeight="60" prefWidth="190">
+            <style> -fx-font-size: 2em;</style>
+            <text> Import </text>
+        </Button>
+        <Label layoutX="126" layoutY="220" minHeight="16" minWidth="69" fx:id="label"/>
+        <Canvas layoutX="300" layoutY="300" width="500" height="800" fx:id="canvas"></Canvas>
     </children>
 </AnchorPane>
+

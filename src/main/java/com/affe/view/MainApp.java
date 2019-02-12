@@ -1,24 +1,46 @@
-package com.affe;
+package com.affe.view;
 
+import com.affe.controller.FXMLController;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.logging.Logger;
 
 
 public class MainApp extends Application {
+    Scene scene;
+
+    public final static Logger logger = Logger.getLogger("jpegaffe");
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
+        FXMLLoader loader;
+        Parent root;
+        try {
+            loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+            root = (Parent)loader.load();
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
+        }
+
+        // get logger
+
+        // set up controller context
+        FXMLController controller = (FXMLController) loader.getController();
+        controller.setStage(stage);
+        controller.setLogger(logger);
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
+
         stage.show();
     }
 

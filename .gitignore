@@ -77,3 +77,8 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+# target file
+target/**
+target/generated-sources/
+target/maven-status/
