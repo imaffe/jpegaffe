@@ -34,7 +34,6 @@ public class MainApp extends Application {
         // set up controller context
         FXMLController controller = (FXMLController) loader.getController();
         controller.setStage(stage);
-        controller.setLogger(logger);
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
