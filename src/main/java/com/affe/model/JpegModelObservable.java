@@ -99,4 +99,30 @@ public class JpegModelObservable implements Observable {
 
         return this;
     }
+
+    // private processing
+    private JpegModelObservable step1ColorTransform() {
+        return this;
+    }
+
+    private JpegModelObservable step2Subsampling() {
+        return this;
+    }
+
+    private JpegModelObservable step3Dct() {
+        return this;
+    }
+
+    private JpegModelObservable step4Quantization() {
+        return this;
+    }
+
+    private JpegModelObservable step5EntropyCoding() {
+        return this;
+    }
+
+    private JpegModelObservable step6ComposeJpeg() {
+        return this;
+    }
+
 }
