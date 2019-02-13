@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane id="AnchorPane" prefHeight="960" prefWidth="1280" xmlns:fx="http://javafx.com/fxml" fx:controller="com.affe.controller.FXMLController">
     <children>
         <Button layoutX="40" layoutY="90" onAction="#handleImportButtonAction" fx:id="importButton" prefHeight="60" prefWidth="190">
@@ -14,7 +16,11 @@
             <text> Import </text>
         </Button>
         <Label layoutX="126" layoutY="220" minHeight="16" minWidth="69" fx:id="label"/>
-        <Canvas layoutX="300" layoutY="300" width="500" height="800" fx:id="canvas"></Canvas>
+        <ImageView layoutX="300" layoutY="300" fx:id="imageView">
+            <image>
+                <Image url="@../pictures/icon.png"></Image>
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
 

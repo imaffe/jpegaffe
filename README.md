@@ -9,3 +9,15 @@ author : @imaffe @jason_y
     - how to organize the logger module ? 
 - invalidation listener? What does it mean ?
 - javadocs support ! 
+- it's better to create a "controller" to controll the view
+  the current controller is coupled with view 
+- looks like the observer pattern is not used yet.
+- My MVC still got some problem
+- Can use an Image View to show the image
+- why immutable objects must use a builder?
+- **How to use base class(or interface) reference to access child class method ? **
+
+#### Tasks
+1. Use image view to present a basic imported image
+
+2. 
