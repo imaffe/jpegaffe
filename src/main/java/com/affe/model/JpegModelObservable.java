@@ -1,13 +1,14 @@
 package com.affe.model;
 
-import com.affe.controller.JpegModelObserver;
+import com.affe.image.DctMatrix;
+import com.affe.image.YuvColor;
 import com.affe.interfaces.Observable;
 import com.affe.interfaces.Observer;
-import com.affe.controller.FXMLController;
-
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +19,28 @@ import static com.affe.view.MainApp.logger;
 public class JpegModelObservable implements Observable {
 
     // factory using a static method
+
+    // private structures
     private List<Observer> observerList;
+
     private BufferedImage image;
+
+    private int width;
+
+    private int height;
+
+    private YuvColor yuvColor;
+
+    private DctMatrix dctMatrix;
+    // intermediate structures
+
+
+
 
     public JpegModelObservable() {
         observerList = new ArrayList<Observer>();
     }
+
     public JpegModelObservable(File file){
         observerList = new ArrayList<Observer>();
         // TODO a factory here is more appropriate
@@ -90,8 +107,12 @@ public class JpegModelObservable implements Observable {
     }
 
     // algorithms
-    public JpegModelObservable compress() {
-
+    public JpegModelObservable compress(double quality) {
+        this.step1ColorTransform()
+            .step2Subsampling()
+            .step3DctAndQuantization(quality)
+            .step4EntropyCoding()
+            .step5ComposeJpeg();
         return this;
     }
 
@@ -102,26 +123,31 @@ public class JpegModelObservable implements Observable {
 
     // private processing
     private JpegModelObservable step1ColorTransform() {
+        width = image.getWidth();
+        height = image.getHeight();
+        // TODO shouldn't we use primitives here ?
+        int[] pixelValues = new int[width * height];
+        yuvColor = new YuvColor(width, height, pixelValues);
+
         return this;
     }
 
     private JpegModelObservable step2Subsampling() {
+        yuvColor.subsampling();
         return this;
     }
 
-    private JpegModelObservable step3Dct() {
+    private JpegModelObservable step3DctAndQuantization(double quality) {
+        dctMatrix = new DctMatrix(yuvColor);
+        dctMatrix.dctAndQuantization(quality);
         return this;
     }
 
-    private JpegModelObservable step4Quantization() {
+    private JpegModelObservable step4EntropyCoding() {
         return this;
     }
 
-    private JpegModelObservable step5EntropyCoding() {
-        return this;
-    }
-
-    private JpegModelObservable step6ComposeJpeg() {
+    private JpegModelObservable step5ComposeJpeg() {
         return this;
     }
 
