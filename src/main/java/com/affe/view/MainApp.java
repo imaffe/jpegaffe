@@ -1,5 +1,7 @@
 package com.affe.view;
 
+import com.affe.test.Test;
+
 import com.affe.controller.FXMLController;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -41,6 +43,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
 
         stage.show();
+
     }
 
     /**

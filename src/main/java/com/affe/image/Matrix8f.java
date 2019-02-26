@@ -35,7 +35,7 @@ public class Matrix8f {
 
         for (int i = 0 ; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                buffer[i * 8 + j] = data[row][col];
+                buffer[i * 8 + j] = data[row+i][col+j];
             }
         }
     }

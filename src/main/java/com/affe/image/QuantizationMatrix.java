@@ -5,18 +5,41 @@ public class QuantizationMatrix extends Matrix8f{
 
     public QuantizationMatrix() {
         // default quantization 0.9
-        this(0.9);
+        this(true, 1);
     }
+    // quality from 0 to 2
 
-    public QuantizationMatrix(double quality) {
+    public QuantizationMatrix(boolean isLuminance, double quality) {
         // TODO why super must be the first statement ?
         super();
-        double[] quant = new double[64];
-        for(int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                quant[i * 8 + j] = 8* (1 + quality * (i + j - 1));
-            }
+        double[] quant;
+        if(isLuminance){
+            quant = new double[]{
+                    16, 11, 10, 16, 24, 40, 51, 61,
+                    12, 12, 14, 19, 26, 58, 60, 55,
+                    14, 13, 16, 24, 40, 57, 69, 56,
+                    14, 17, 22, 29, 51, 87, 80, 62,
+                    18, 22, 37, 56, 68, 109, 103, 77,
+                    24, 35, 55, 64, 81, 104, 113, 92,
+                    49, 64, 78, 87, 103, 121, 120, 101,
+                    72, 92, 95, 98, 112, 100, 103, 99};
         }
+        else{
+            quant = new double[]{
+                    17, 18, 24, 47, 99, 99, 99, 99,
+                    18, 21, 26, 66, 99, 99, 99, 99,
+                    24, 26, 56, 99, 99, 99, 99, 99,
+                    47, 66, 99, 99, 99, 99, 99, 99,
+                    99, 99, 99, 99, 99, 99, 99, 99,
+                    99, 99, 99, 99, 99, 99, 99, 99,
+                    99, 99, 99, 99, 99, 99, 99, 99,
+                    99, 99, 99, 99, 99, 99, 99, 99};
+        }
+        for(int i = 0; i<64; i++){
+            quant[i] *= quality;
+        }
+
         super.setBuffer(quant);
     }
+
 }

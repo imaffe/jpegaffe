@@ -3,24 +3,46 @@
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.image.Image?>
-<AnchorPane id="AnchorPane" prefHeight="960" prefWidth="1280" xmlns:fx="http://javafx.com/fxml" fx:controller="com.affe.controller.FXMLController">
-    <children>
-        <Button layoutX="40" layoutY="90" onAction="#handleImportButtonAction" fx:id="importButton" prefHeight="60" prefWidth="190">
-            <style> -fx-font-size: 2em;</style>
-            <text> Import </text>
-        </Button>
-        <Label layoutX="126" layoutY="220" minHeight="16" minWidth="69" fx:id="label"/>
-        <ImageView layoutX="300" layoutY="300" fx:id="imageView">
-            <image>
-                <Image url="@../pictures/icon.png"></Image>
-            </image>
-        </ImageView>
-    </children>
-</AnchorPane>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<AnchorPane id="AnchorPane" prefHeight="960.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.affe.controller.FXMLController">
+  <children>
+    <Button fx:id="importButton" layoutX="546.0" layoutY="369.0" onAction="#handleImportButtonAction" prefHeight="60.0" prefWidth="190.0" style="-fx-font-size: 2em;" text="Import" />
+    <Label fx:id="label" layoutX="126.0" layoutY="220.0" minHeight="16.0" minWidth="69.0" />
+    <ImageView fx:id="icon" fitHeight="206.0" fitWidth="179.0" layoutX="551.0" layoutY="136.0">
+      <image>
+        <Image url="@../pictures/icon.png" />
+      </image>
+    </ImageView>
+    <Button fx:id="compressButton" layoutX="546.0" layoutY="453.0" mnemonicParsing="false" onAction="#handleCompressButtonAction" prefHeight="60.0" prefWidth="190.0" style="-fx-font-size: 2em;" text="Compress">
+      <font>
+        <Font size="24.0" fx:id="x1" />
+      </font>
+    </Button>
+    <Button fx:id="saveButton" font="$x1" layoutX="546.0" layoutY="541.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="60.0" prefWidth="190.0" style="-fx-font-size: 2em;" text="Save" />
+    <ImageView fx:id="imageView" fitHeight="310.0" fitWidth="413.3333333333333" layoutX="61.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="resultView" fitHeight="310.0" fitWidth="413.3333333333333" layoutX="829.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="dctView" fitHeight="310.0" fitWidth="413.3333333333333" layoutX="829.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
+    <RadioButton fx:id="defaultBtn" layoutX="553.0" layoutY="648.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="94.0" text="Default">
+      <font>
+        <Font size="15.0" fx:id="x2" />
+      </font>
+    </RadioButton>
+    <RadioButton fx:id="qualityBtn" font="$x2" layoutX="647.0" layoutY="648.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="94.0" text="Quality" />
+    <Slider fx:id="lumQualitySlider" blockIncrement="0.05" layoutX="521.0" layoutY="709.0" majorTickUnit="0.5" max="2.0" prefWidth="243.0" value="1.0" />
+    <Slider fx:id="chromQualitySlider" blockIncrement="0.05" layoutX="521.0" layoutY="751.0" majorTickUnit="0.5" max="2.0" prefWidth="243.0" value="1.0" />
+    <Label layoutX="140.0" layoutY="648.0" prefHeight="37.0" prefWidth="348.0" text="Costumize your quantization table :">
+      <font>
+        <Font name="System Bold" size="16.0" fx:id="x3" />
+      </font>
+    </Label>
+    <Label font="$x3" layoutX="275.0" layoutY="697.0" prefHeight="37.0" prefWidth="213.0" text="Luminance Quality :" />
+    <Label font="$x3" layoutX="257.0" layoutY="739.0" prefHeight="37.0" prefWidth="217.3333740234375" text="Chrominance Quality :" />
+  </children>
+</AnchorPane>
