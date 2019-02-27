@@ -1,3 +1,7 @@
+<head>
+<link rel="stylesheet" type="text/css" href="css/figure.css">
+</head>
+
 ## Jpeg Encoder And Decoder
 
 [TOC]
@@ -6,8 +10,21 @@
 
 We are using JavaFX 11 (OpenFX) as our GUI framework. JavaFX is a light weight , new generation Java GUI framework in order to replace Swing. We use FXML files to define the layouts, and a ```FXMLController.java``` to ```control``` 
 
-- **global layout and button specifications**
-- TODO : add a picture and button descriptions here
+##### Layout
+
+![](pictures/layout.png)
+
+###### Image view
+
+There are three ImageView in total. One the left, it is the original picture imported by user. On the right, the top one is the DCT result transforming into RBG image and the bottom one is the result of compressing and extracting the imported image. 
+
+###### Button and Slider
+
+The three buttons are the interfaces to import original image, compress image, and save result image. 
+The radio button selects the mode for quantization. The default mode uses the luminance and chrominance quantization table on the text book. The 'Quality' mode applys the sliders to change the value of quantization table.
+When sliding the slider to the left, the quantization table's values are getting smaller and with better compression quality. On the contrary, they are getting larger and with worse compression quality.
+The top slider is to control the quantization for luminance, while the bottom one is for chrominance.
+
 
 #### MVC Hierarchy
 
@@ -43,7 +60,7 @@ A subclass of **Matrix8f** singleton, it has a ```transpose()``` which return th
 
 ##### QuantizationMatrix
 
-Given a quality number from 0 ~ 1, it can generate a quantization matrix of 8 * 8. Also a subclass of **Matrix8f**.  It used in the quantization steps.
+Given a quality number from 0 ~ 2, it can generate a quantization matrix of 8 * 8. Also a subclass of **Matrix8f**.  It used in the quantization steps.
 
 ##### BufferedImage
 
@@ -59,7 +76,7 @@ First when we create a ```JpegModelObservable``` instance , we get a BufferImage
 
 ##### step2Subsampling
 
-The 4:2:0 subsampling is a little bit harder to understand at first. What subsampling means : for three 4 width, 2 height block, one such 4 * 2 block for a chroma (Y, U, V). For the Y block, we make them stay the same. for U block,  we set the first row all the same U value of the first pixel (0,0) 's U value, and for Y block we set the second row all the same V value for the first pixel in second line (1,0)'s V value. Resulting in U, V blocks, some adjacent pixel have the same value (and before subsampling they dont). This is the first place where information were lost.
+The 4:2:0 subsampling is a little bit harder to understand at first. What subsampling means : for three 4 width, 2 height block, one such 4 * 2 block for a chroma (Y, U, V). For the Y block, we make them stay the same. for U block, we set the first square block ((0,0) to (1,1)) all the same U value of the first pixel (0,0)'s U value and the same V value of (1,0)'s V value. And we set the second square block ((2, 0) to (3, 1)) all the same U value of the first pixel (2,0)'s U value and the same Y value of (2,1)'s V value. Resulting in U, V blocks, some adjacent pixel have the same value (and before subsampling they dont). This is the first place where information were lost.
 
 ##### step3DctAndQuantization
 
@@ -69,11 +86,78 @@ So far our encoder has completed. The data structure we obtained is not a standa
 
 #### Algorithms : Decoder
 
+In this chapter we are going through the Jpeg decoding Process without Entropy Coding. The decoding process is similar to the encoding process but in reverse order.
+
+##### step4ShowDctImage
+
+In order to display the DCT matrixes after DCT and quantization, we regard the three DCT matrixes of Y, U, and V channel as a YUV image. And then we transform it into a RGB image and display it on the home page of our program. Although the transformed image does not have specific meaning, we can see the Y DCT values by the luminance of that image and the U,V DCT values by its chrominance.
+
+##### step5ExtractJpeg
+
+Since we did not implement the entropy encoding and decoding part, we directly multiply the previous DCT matrix by the same quantization table in the compression process. After that, we perform the reverse DCT by multiplying the inverse matrix of that in the compression process. Now we get the YUV image after Jpeg compression and extraction, and then we transform the YUV image into result RGB image and display it on the home page.  
+
 #### Examples
 
+##### Default mode
+
+We first apply default mode to see the performance of the result image after encoding and decoding. The DCT image can also help us to have a general sense of its DCT matrixes values. Here are the results:
+
+<figure style="width:30%">
+    <img src="pictures/lena.png" alt="default result"/>
+    <figcaption>1. Original Image</figcaption>
+</figure>
+    
+<figure style="width:30%">
+    <img src="pictures/default_dct.png" alt="default result"/>
+    <figcaption>2. DCT Image</figcaption>
+</figure>
+
+<figure style="width:30%">
+    <img src="pictures/default_result.jpg" alt="default result"/>
+    <figcaption>3. Result Image</figcaption>
+</figure>
+
+
+We can see that the result image has some green blocks at the border of hat and hair. It illustrates that the compression may lose more information at the border of different segments than within the segment.
+
+##### Quality
+
+In 'Quality' mode, we can use the slider to control the values in the quatization table so as to control the compress quality on both luminance and chrominance channel. First we slide the luminance slider to the left and obtain a high quality luminance quantization table. From figure 5, the DCT image is much lighter than the default one, which shows that it has larger values after quantization. Therefore, figure 4 has less green blocks and the luminance quality is better than the default result. 
+When we slide the chrominance slider to the right, we obtain a chrominance quantization table with larger values, which means that it may lose more chrominance information. From figure 6, there are more green blocks than the default result.
+
+<figure style="width:23%">
+    <img src="pictures/high_lum_quality_result.jpg" alt="default result"/>
+    <figcaption>4. High Lum Result</figcaption>
+</figure>
+    
+<figure style="width:23%">
+    <img src="pictures/high_lum_quality_dct.png" alt="default result"/>
+    <figcaption>5. High Lum DCT</figcaption>
+</figure>
+
+<figure style="width:23%">
+    <img src="pictures/low_chrom_quality_result.jpg" alt="default result"/>
+    <figcaption>6. Low Chrom Result</figcaption>
+</figure>
+
+<figure style="width:23%">
+    <img src="pictures/low_chrom_quality_dct.png" alt="default result"/>
+    <figcaption>7. Low Chrom DCT</figcaption>
+</figure>
+
+At last we apply both luminance and chrominance quantization table with small values to obtain a best quality image. We can see that the figure 7 is nearly the same with the original image. The DCT image is very light and colorful, which shows that it lose less information on both luminance and chrominance. 
+
+<figure style="width:45%">
+    <img src="pictures/best_quality_result.jpg" alt="default result"/>
+    <figcaption>8. Best Result</figcaption>
+</figure>
+
+<figure style="width:45%">
+    <img src="pictures/high_quality_dct.png" alt="default result"/>
+    <figcaption>9. Best DCT</figcaption>
+</figure>
+
 #### References
-
-
 
 
 

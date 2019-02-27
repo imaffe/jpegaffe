@@ -15,9 +15,9 @@
   <children>
     <Button fx:id="importButton" layoutX="546.0" layoutY="369.0" onAction="#handleImportButtonAction" prefHeight="60.0" prefWidth="190.0" style="-fx-font-size: 2em;" text="Import" />
     <Label fx:id="label" layoutX="126.0" layoutY="220.0" minHeight="16.0" minWidth="69.0" />
-    <ImageView fx:id="icon" fitHeight="206.0" fitWidth="179.0" layoutX="551.0" layoutY="136.0">
+    <ImageView fx:id="icon" fitHeight="179.0" fitWidth="179.0" layoutX="551.0" layoutY="136.0">
       <image>
-        <Image url="@../pictures/icon.png" />
+        <Image url="@../pictures/jpeg.png" />
       </image>
     </ImageView>
     <Button fx:id="compressButton" layoutX="546.0" layoutY="453.0" mnemonicParsing="false" onAction="#handleCompressButtonAction" prefHeight="60.0" prefWidth="190.0" style="-fx-font-size: 2em;" text="Compress">

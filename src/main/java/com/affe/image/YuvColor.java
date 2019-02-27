@@ -50,9 +50,9 @@ public class YuvColor {
                 uValues[(i+1) * width + j] = uValues[i * width + j];
                 uValues[(i+1) * width + j + 1] = uValues[i * width + j];
 
-                vValues[i * width + j] = vValues[i * width + j];
-                vValues[i * width + j + 1] = vValues[i * width + j];
-                vValues[(i+1) * width + j + 1] = vValues[i * width + j];
+                vValues[i * width + j] = vValues[(i+1) * width + j];
+                vValues[i * width + j + 1] = vValues[(i+1) * width + j];
+                vValues[(i+1) * width + j + 1] = vValues[(i+1) * width + j];
             }
         }
         return this;
